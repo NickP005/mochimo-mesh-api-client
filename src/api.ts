@@ -164,6 +164,131 @@ export class MochimoApiClient {
       block_identifier: identifier
     });
   }
+  /**
+   * Get network options (operation types, statuses, errors, etc)
+   */
+  async getNetworkOptions(): Promise<any> {
+    return this.makeRequest('/network/options', {
+      network_identifier: this.networkIdentifier
+    });
+  }
+
+  /**
+   * Get a transaction inside a block by block identifier and transaction hash
+   * @param blockIdentifier {BlockIdentifier}
+   * @param transactionHash {string}
+   */
+  async getBlockTransaction(blockIdentifier: BlockIdentifier, transactionHash: string): Promise<any> {
+    return this.makeRequest('/block/transaction', {
+      network_identifier: this.networkIdentifier,
+      block_identifier: blockIdentifier,
+      transaction_identifier: { hash: transactionHash }
+    });
+  }
+
+  /**
+   * Search transactions by account address, with optional filters
+   * @param address {string}
+   * @param options {object} Optional: limit, offset, max_block, status
+   */
+  async searchTransactionsByAddress(address: string, options?: {
+    limit?: number;
+    offset?: number;
+    max_block?: number;
+    status?: string;
+  }): Promise<any> {
+    const body: any = {
+      network_identifier: this.networkIdentifier,
+      account_identifier: { address }
+    };
+    if (options) {
+      if (options.limit !== undefined) body.limit = options.limit;
+      if (options.offset !== undefined) body.offset = options.offset;
+      if (options.max_block !== undefined) body.max_block = options.max_block;
+      if (options.status !== undefined) body.status = options.status;
+    }
+    return this.makeRequest('/search/transactions', body);
+  }
+
+  /**
+   * Search transactions by block index/hash, with optional filters
+   * @param blockIdentifier {BlockIdentifier}
+   * @param options {object} Optional: limit, offset, status
+   */
+  async searchTransactionsByBlock(blockIdentifier: BlockIdentifier, options?: {
+    limit?: number;
+    offset?: number;
+    status?: string;
+  }): Promise<any> {
+    const body: any = {
+      network_identifier: this.networkIdentifier,
+      block_identifier: blockIdentifier
+    };
+    if (options) {
+      if (options.limit !== undefined) body.limit = options.limit;
+      if (options.offset !== undefined) body.offset = options.offset;
+      if (options.status !== undefined) body.status = options.status;
+    }
+    return this.makeRequest('/search/transactions', body);
+  }
+
+  /**
+   * Search transactions by transaction hash, with optional filters
+   * @param transactionHash {string}
+   * @param options {object} Optional: max_block, status
+   */
+  async searchTransactionsByTxId(transactionHash: string, options?: {
+    max_block?: number;
+    status?: string;
+  }): Promise<any> {
+    const body: any = {
+      network_identifier: this.networkIdentifier,
+      transaction_identifier: { hash: transactionHash }
+    };
+    if (options) {
+      if (options.max_block !== undefined) body.max_block = options.max_block;
+      if (options.status !== undefined) body.status = options.status;
+    }
+    return this.makeRequest('/search/transactions', body);
+  }
+
+  /**
+   * Get block events (additions/removals) with optional limit/offset
+   * @param options {object} Optional: limit, offset
+   */
+  async getEventsBlocks(options?: {
+    limit?: number;
+    offset?: number;
+  }): Promise<any> {
+    const body: any = {
+      network_identifier: this.networkIdentifier
+    };
+    if (options) {
+      if (options.limit !== undefined) body.limit = options.limit;
+      if (options.offset !== undefined) body.offset = options.offset;
+    }
+    return this.makeRequest('/events/blocks', body);
+  }
+
+  /**
+   * Get the richlist (accounts with highest balances)
+   * @param options {object} Optional: ascending, offset, limit
+   */
+  async getStatsRichlist(options?: {
+    ascending?: boolean;
+    offset?: number;
+    limit?: number;
+  }): Promise<any> {
+    const body: any = {
+      network_identifier: this.networkIdentifier
+    };
+    if (options) {
+      if (options.ascending !== undefined) body.ascending = options.ascending;
+      if (options.offset !== undefined) body.offset = options.offset;
+      if (options.limit !== undefined) body.limit = options.limit;
+    }
+    return this.makeRequest('/stats/richlist', body);
+  }
   async getNetworkStatus(): Promise<NetworkStatus> {
     return this.makeRequest('/network/status', {
       network_identifier: this.networkIdentifier
