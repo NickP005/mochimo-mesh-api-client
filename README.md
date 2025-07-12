@@ -117,6 +117,73 @@ class MochimoApiClient {
         timeout?: number,
         interval?: number
     ): Promise<MempoolTransactionResponse>;
+
+    // Get network status
+    getNetworkStatus(): Promise<NetworkStatus>;
+
+    // Get network options (operation types, statuses, errors, etc)
+    getNetworkOptions(): Promise<any>;
+
+    // Get block by index or hash
+    getBlock(identifier: BlockIdentifier): Promise<{ block: Block }>;
+
+    // Get transaction details within a block
+    getBlockTransaction(blockIdentifier: BlockIdentifier, transactionHash: string): Promise<any>;
+
+    // Submit a signed transaction
+    submit(signedTransaction: string): Promise<TransactionSubmitResponse>;
+
+    // Derive address from public key
+    derive(publicKey: string, tag: string): Promise<any>;
+
+    // Preprocess transaction
+    preprocess(operations: Operation[], metadata: any): Promise<PreprocessResponse>;
+
+    // Fetch construction metadata
+    metadata(options: PreprocessOptions, publicKeys: PublicKey[]): Promise<MetadataResponse>;
+
+    // Fetch payloads for signing
+    payloads(operations: Operation[], metadata: any, publicKeys: PublicKey[]): Promise<PayloadsResponse>;
+
+    // Combine unsigned transaction and signatures
+    combine(unsignedTransaction: string, signatures: any[]): Promise<any>;
+
+    // Parse a transaction
+    parse(transaction: string, signed: boolean): Promise<any>;
+
+    // Search transactions by account address
+    searchTransactionsByAddress(address: string, options?: {
+        limit?: number;
+        offset?: number;
+        max_block?: number;
+        status?: string;
+    }): Promise<any>;
+
+    // Search transactions by block
+    searchTransactionsByBlock(blockIdentifier: BlockIdentifier, options?: {
+        limit?: number;
+        offset?: number;
+        status?: string;
+    }): Promise<any>;
+
+    // Search transactions by transaction hash
+    searchTransactionsByTxId(transactionHash: string, options?: {
+        max_block?: number;
+        status?: string;
+    }): Promise<any>;
+
+    // Get block events (additions/removals)
+    getEventsBlocks(options?: {
+        limit?: number;
+        offset?: number;
+    }): Promise<any>;
+
+    // Get the richlist (accounts with highest balances)
+    getStatsRichlist(options?: {
+        ascending?: boolean;
+        offset?: number;
+        limit?: number;
+    }): Promise<any>;
 }
 ```
 
