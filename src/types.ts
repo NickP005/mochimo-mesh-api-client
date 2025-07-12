@@ -1,3 +1,32 @@
+// Richlist account entry
+export interface StatsRichlistAccount {
+  account_identifier: AccountIdentifier;
+  balance: Amount;
+}
+
+// Response for /stats/richlist
+export interface StatsRichlistResponse {
+  block_identifier: BlockIdentifier;
+  last_updated: string;
+  accounts: StatsRichlistAccount[];
+  total_accounts: number;
+  circulating_supply?: Amount;
+}
+// Transaction search result (for /search/transactions)
+export interface TransactionSearchResult {
+  block_identifier: BlockIdentifier;
+  transaction_identifier: TransactionIdentifier;
+  operations: Operation[];
+  metadata: Record<string, any>;
+  timestamp: number;
+}
+
+// Response for /search/transactions
+export interface TransactionSearchResponse {
+  transactions: TransactionSearchResult[];
+  total_count: number;
+  next_offset?: number;
+}
 // Basic types used across the API
 export interface NetworkIdentifier {
   blockchain: string;

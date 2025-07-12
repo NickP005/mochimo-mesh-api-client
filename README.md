@@ -157,20 +157,33 @@ class MochimoApiClient {
         offset?: number;
         max_block?: number;
         status?: string;
-    }): Promise<any>;
+    }): Promise<TransactionSearchResponse>;
 
     // Search transactions by block
     searchTransactionsByBlock(blockIdentifier: BlockIdentifier, options?: {
         limit?: number;
         offset?: number;
         status?: string;
-    }): Promise<any>;
+    }): Promise<TransactionSearchResponse>;
 
     // Search transactions by transaction hash
     searchTransactionsByTxId(transactionHash: string, options?: {
         max_block?: number;
         status?: string;
-    }): Promise<any>;
+    }): Promise<TransactionSearchResponse>;
+
+    // Search transactions by block
+    searchTransactionsByBlock(blockIdentifier: BlockIdentifier, options?: {
+        limit?: number;
+        offset?: number;
+        status?: string;
+    }): Promise<TransactionSearchResponse>;
+
+    // Search transactions by transaction hash
+    searchTransactionsByTxId(transactionHash: string, options?: {
+        max_block?: number;
+        status?: string;
+    }): Promise<TransactionSearchResponse>;
 
     // Get block events (additions/removals)
     getEventsBlocks(options?: {
@@ -183,7 +196,7 @@ class MochimoApiClient {
         ascending?: boolean;
         offset?: number;
         limit?: number;
-    }): Promise<any>;
+    }): Promise<StatsRichlistResponse>;
 }
 ```
 
